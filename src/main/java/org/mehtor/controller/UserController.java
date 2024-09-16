@@ -3,6 +3,7 @@ package org.mehtor.controller;
 import org.mehtor.entity.User;
 import org.mehtor.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class UserController {
 		try{
 			return userService.save(user);
 		}catch(Exception e){
-			System.out.println("Controller Hata!");
+			System.out.println("Controller user save Hata!");
 		}
 		return Optional.empty();
 	}
@@ -26,7 +27,7 @@ public class UserController {
 		try{
 			return userService.update(user);
 		}catch(Exception e){
-			System.out.println("Controller Update Hata!");
+			System.out.println("Controller user  Update Hata!");
 		}
 		return Optional.empty();
 	}
@@ -35,7 +36,7 @@ public class UserController {
 		try{
 			return userService.delete(id);
 		}catch(Exception e){
-			System.out.println("Controller Delete Hata!");
+			System.out.println("Controller user Delete Hata!");
 		}
 		return false;
 	}
@@ -44,17 +45,17 @@ public class UserController {
 		try{
 			return userService.findAll();
 		}catch(Exception e){
-			System.out.println("Controller FindAll Hata!");
+			System.out.println("Controller user FindAll Hata!");
 		}
-		return null;
+		return new ArrayList<>();
 	}
 	
 	public Optional<User> findById(Long id) {
-		try{
-			return userService.findById(id);
-		}catch(Exception e){
-			System.out.println("Controller FindById Hata!");
-		}
-		return Optional.empty();
-	}
+		Optional<User> user = userService.findById(id);
+		user.ifPresentOrElse(
+				v -> System.out.println("Controller user bulundu: "+v.getId()+v.getName()),
+		        () -> System.out.println("Controller boyle bir user bulunamadı.")
+		);
+		return user;
+}
 }

@@ -59,7 +59,6 @@ public class ConnectionProvider {
 		try{
 			if(openConnection()){
 				ResultSet rs = conn.prepareStatement(sql).executeQuery();
-				closeConnection();
 				return Optional.ofNullable(rs);
 			}else{
 				System.out.println("Connection open error...");

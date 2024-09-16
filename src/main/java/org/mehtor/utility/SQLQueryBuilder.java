@@ -127,6 +127,11 @@ public class SQLQueryBuilder {
 							else if (field.getType().equals(Boolean.class) && value instanceof Boolean) {
 								field.set(entity, value);
 							}
+							else if(field.getType().isEnum()) {
+								Class<Enum> enumType = (Class<Enum>) field.getType();
+								value = Enum.valueOf(enumType, value.toString());
+								field.set(entity, value);
+							}
 							else {
 								field.set(entity, value);
 							}
@@ -180,6 +185,11 @@ public class SQLQueryBuilder {
 							}
 							// Boolean türü için kontrol
 							else if (field.getType().equals(Boolean.class) && value instanceof Boolean) {
+								field.set(entity, value);
+							}
+							else if(field.getType().isEnum()) {
+								Class<Enum> enumType = (Class<Enum>) field.getType();
+								value = Enum.valueOf(enumType, value.toString());
 								field.set(entity, value);
 							}
 

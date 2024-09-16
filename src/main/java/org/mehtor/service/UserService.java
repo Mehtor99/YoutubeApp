@@ -21,32 +21,41 @@ public class UserService implements ICRUDService<User> {
 			userRepository.save(user);
 			System.out.println("User saved successfully!");
 		}catch(Exception e){
-			System.err.println("Service save Hata!");
+			System.err.println("Service save Hata!..."+e.getMessage());
 		}
 		return Optional.ofNullable(user);
 	}
 	
 	@Override
-	public boolean delete(Long id) {
-		try{
-			userRepository.delete(id);
-			System.out.println("User deleted successfully!");
-			return true;
-		}catch (Exception e){
-			System.err.println("Service delete Hata!");
+	public boolean delete(Long silinecekId) {
+		if(findById(silinecekId).isPresent()) {
+			try{
+				userRepository.delete(silinecekId);
+				return true;
+			}catch (Exception e) {
+				System.out.println("Service: user silinemedi..."+e.getMessage());
+			}
+		}else{
+			System.out.println("Service: Silinecek user bulunamadı");
 		}
 		return false;
 	}
 	
 	@Override
 	public Optional<User> update(User user) {
-		try{
-			userRepository.update(user);
-			System.out.println("User updated successfully!");
-		}catch(Exception e){
-			System.out.println("Service update Hata!");
+		if(findById(user.getId()).isPresent()) {
+			try {
+				userRepository.update(user);
+				System.out.println(user.getName()+"isimli user guncellendi");
+			}catch (Exception e){
+				System.err.println("Service: user guncellenemdi..."+e.getMessage());
+				return Optional.empty();
+			}
+		}else{
+			System.out.println("Service: Guncellenecek user bulunamadi");
+			return Optional.empty();
 		}
-		return Optional.ofNullable(user);
+		return Optional.of(user);
 	}
 	
 	@Override

@@ -17,6 +17,7 @@ updatedAt bigint DEFAULT EXTRACT(epoch FROM now())
 
 CREATE TABLE IF NOT EXISTS tblvideo(
 id BIGSERIAL PRIMARY KEY,
+uploaderId BIGINT REFERENCES tbluser(id),
 title varchar NOT NULL,
 description varchar,
 category video_category NOT NULL,

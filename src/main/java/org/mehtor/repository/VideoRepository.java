@@ -57,7 +57,7 @@ public class VideoRepository implements ICRUD<Video> {
 	
 	@Override
 	public Optional<Video> findById(Long id) {
-		sql="SELECT * FROM" + "tblvideo" + "WHERE id=" + id;
+		sql="SELECT * FROM " + "tblvideo" + " WHERE id=" + id;
 		Optional<ResultSet> resultSet=connectionProvider.executeQuery(sql);
 		if(resultSet.isPresent()){
 			ResultSet rs = resultSet.get();
