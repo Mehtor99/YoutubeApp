@@ -5,85 +5,47 @@ import java.util.Optional;
 
 import static org.mehtor.utility.Constants.*;
 
-public class ConnectionProvider {
+public class ConnectionProvider implements AutoCloseable {
 	private Connection conn;
+	private static ConnectionProvider instance;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 	
-	private boolean openConnection(){
-		try{
-			conn = DriverManager.getConnection("jdbc:postgresql://"+ DB_HOSTNAME+":"+DB_PORT+"/"+DB_NAME, DB_USERNAME, DB_PASSWORD);
-			return true;
+	public static synchronized ConnectionProvider getInstance() {
+		
+		if (instance == null) {
+			instance = new ConnectionProvider();
 		}
-		catch (SQLException e) {
-			System.out.println("Connection error..."+e.getMessage());
-			return false;
-		}
+		return instance;
 	}
 	
-	private boolean closeConnection(){
-		try{
-			if(!conn.isClosed()) {
+	@Override
+	public void close() {
+		try {
+			if (conn != null && !conn.isClosed()) {
 				conn.close();
-				return true;
-			}
-			else{
-				System.out.println("Connection has already closed...");
-				return false;
 			}
 		}
 		catch (SQLException e) {
-			System.out.println("Connection close error..."+e.getMessage());
-			return false;
+			System.out.println("Veritabani baglantisi kapatilirken hata oldu..."+e.getMessage());
 		}
 	}
 	
-	public boolean executeUpdate(String sql){
-		try{
-			if(openConnection()){
-				conn.prepareStatement(sql).executeUpdate();
-				closeConnection();
-				return true;
-			} else{
-				System.out.println("Connection open error...");
-				return false;
-			}
-		}
-		catch (SQLException e) {
-			System.out.println("SQL execution error..."+e.getMessage());
-			return false;
-		}
-	}
-	
-	public Optional<ResultSet> executeQuery(String sql){
-		try{
-			if(openConnection()){
-				ResultSet rs = conn.prepareStatement(sql).executeQuery();
-				return Optional.ofNullable(rs);
-			}else{
-				System.out.println("Connection open error...");
-				return Optional.empty();
-			}
-		}
-		catch (SQLException e) {
-			System.out.println("SQL execution error..."+e.getMessage());
-			return Optional.empty();
-		}
-	}
-	
-	public PreparedStatement getPreparedStatement() {
-		return preparedStatement;
-	}
-	
-	public void setPreparedStatement(PreparedStatement preparedStatement) {
-		this.preparedStatement = preparedStatement;
+	public PreparedStatement getPreparedStatement(String sql) throws SQLException {
+		conn = getConn();
+		return conn.prepareStatement(sql);
 	}
 	
 	public Connection getConn() {
+		try {
+			if (conn == null|| conn.isClosed()) {
+				this.conn = DatabaseConnection.getInstance().getConnection();
+			}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return conn;
 	}
 	
-	public void setConn(Connection conn) {
-		this.conn = conn;
-	}
 }
