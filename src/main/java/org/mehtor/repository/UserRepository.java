@@ -42,28 +42,27 @@ public class UserRepository implements ICRUD<User> {
 	
 	@Override
 	public Optional<User> update(User user) {
-		sql =
-				"UPDATE tbluser SET  name=?, surname=?, email=?, username=?, password=?,?::user_role, state=?, createdat=?, "
-						+ "updatedat=? WHERE id=?";
+		sql = "UPDATE tbluser SET name=?,surname=?,email=?,username=?,password=?, role=?::user_role, state=?, " +
+				"createdat=?, updatedat=?" +
+				" WHERE " +
+				"id=?";
 		try (PreparedStatement preparedStatement = connectionProvider.getPreparedStatement(sql)) {
-			
 			preparedStatement.setString(1, user.getName());
 			preparedStatement.setString(2, user.getSurname());
 			preparedStatement.setString(3, user.getEmail());
 			preparedStatement.setString(4, user.getUsername());
 			preparedStatement.setString(5, user.getPassword());
 			preparedStatement.setString(6, user.getRole().name());
-			preparedStatement.setInt(7, user.getState());
-			preparedStatement.setLong(8, user.getCreatedAt());
-			preparedStatement.setLong(9, user.getUpdatedAt());
+			preparedStatement.setInt(7,user.getState());
+			preparedStatement.setLong(8,user.getCreatedAt());
+			preparedStatement.setLong(9,user.getCreatedAt());
 			preparedStatement.setLong(10, user.getId());
 			preparedStatement.executeUpdate();
-			return Optional.of(user);
 		}
 		catch (SQLException e) {
-			System.out.println("Kullanıcı guncellenirken hata olustu..." + e.getMessage());
+			System.out.println("Repository : Kullanıcı güncellenirken hata oluştu. " + e.getMessage());
 		}
-		return Optional.empty();
+		return Optional.ofNullable(user);
 	}
 	
 	@Override

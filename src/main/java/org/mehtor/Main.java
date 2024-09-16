@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class Main {
 	public static void main(String[] args) {
-		User user1 = new User("Alper", "Güler", "alperg@gmail.com", "mehtor13", "1234", ERole.ADMIN,1,
+		User user1 = new User("Alper", "Güler", "alperg@gmail", "mehtor3", "1234", ERole.ADMIN,1,
 		                      System.currentTimeMillis(),System.currentTimeMillis());
 		//UserController userController = new UserController();
 		//userController.save(user);
@@ -25,11 +25,9 @@ public class Main {
 		//videoController.delete(1L);
 		
 		UserRepository userRepository = new UserRepository();
-		//userRepository.save(user1);
-		user1.setId(5L);
-		user1.setName("Gülay");
-		user1.setPassword("12345");
-		userRepository.update(user1);
+		Optional<User> byId = userRepository.findById(5L);
+		System.out.println(byId.get());
+		
 		
 	}
 }

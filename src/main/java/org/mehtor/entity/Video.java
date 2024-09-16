@@ -34,15 +34,16 @@ public class Video extends BaseEntity {
 		this.category = category;
 	}
 	
-	public Video( Long id, String title, String description,ECategory category, Integer viewCount, Integer likeCount,Integer dislikeCount,Integer state, Long createdAt, Long updatedAt) {
+	public Video(Long id, Long uploaderId, String title, String description, ECategory category, Integer viewCount, Integer likeCount, Integer dislikeCount,Integer state, Long createdAt, Long updatedAt) {
 		super(state, createdAt, updatedAt);
 		this.id = id;
+		this.uploaderId = uploaderId;
 		this.title = title;
 		this.description = description;
+		this.category = category;
 		this.viewCount = viewCount;
 		this.likeCount = likeCount;
 		this.dislikeCount = dislikeCount;
-		this.category = category;
 	}
 	
 	public Long getId() {
