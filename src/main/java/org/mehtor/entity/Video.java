@@ -12,7 +12,8 @@ public class Video extends BaseEntity {
 	private Integer likeCount = 0;
 	private Integer dislikeCount = 0;
 	
-	public Video(Long uploaderId, String title, String description, ECategory category) {
+	public Video( Long uploaderId, String title, String description, ECategory category,Integer state, Long createdAt, Long updatedAt) {
+		super(state, createdAt, updatedAt);
 		this.uploaderId = uploaderId;
 		this.title = title;
 		this.description = description;

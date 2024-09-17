@@ -1,15 +1,22 @@
-package org.mehtor.dto.response;
+package org.mehtor.dto.request;
 
 
-import org.mehtor.entity.ERole;
 
-public class UserResponseDTO {
+public class UserUpdateRequestDTO {
 	
+	private Long id;
 	private String name;
 	private String surname;
 	private String email;
 	private String username;
 	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	public String getName() {
 		return name;
@@ -41,11 +48,5 @@ public class UserResponseDTO {
 	
 	public void setUsername(String username) {
 		this.username = username;
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "UserResponseDTO{" + "name='" + getName() + '\'' + ", surname='" + getSurname() + '\'' + ", email='" + getEmail() + '\'' + ", username='" + getUsername() + '\'' + '}';
 	}
 }

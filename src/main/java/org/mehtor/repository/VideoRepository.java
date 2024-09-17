@@ -36,7 +36,7 @@ public class VideoRepository implements ICRUD<Video> {
 	@Override
 	public Optional<Video> save(Video video) {
 		sql =
-				"INSERT INTO tblvideo (uploaderId, title, description, category, viewCount, likeCount, dislikeCount, " + "state, createdAt, updatedAt) " + "VALUES (?, ?, ?, ?::video_category, ?, ?, ?, ?, ?, ?)";
+				"INSERT INTO tblvideo (uploaderId, title, description, category, viewCount, likeCount, dislikeCount VALUES (?, ?, ?, ?::video_category, ?, ?, ?)";
 		try (PreparedStatement preparedStatement = connectionProvider.getPreparedStatement(sql)) {
 			preparedStatement.setLong(1, video.getUploaderId());
 			preparedStatement.setString(2, video.getTitle());
@@ -45,9 +45,6 @@ public class VideoRepository implements ICRUD<Video> {
 			preparedStatement.setInt(5, video.getViewCount());
 			preparedStatement.setInt(6, video.getLikeCount());
 			preparedStatement.setInt(7, video.getDislikeCount());
-			preparedStatement.setInt(8, video.getState());
-			preparedStatement.setLong(9, video.getCreatedAt());
-			preparedStatement.setLong(10, video.getUpdatedAt());
 			preparedStatement.executeUpdate();
 		}
 		catch (SQLException e) {
@@ -72,7 +69,7 @@ public class VideoRepository implements ICRUD<Video> {
 	@Override
 	public Optional<Video> update(Video video) {
 		sql =
-				"UPDATE tblvideo SET uploaderId=?, title=?, description=?, category=?::video_category, viewCount=?, " + "likeCount=?, dislikeCount=?, state=?, updatedAt=? WHERE id=?";
+				"UPDATE tblvideo SET uploaderId=?, title=?, description=?, category=?::video_category, viewCount=?, " + "likeCount=?, dislikeCount=? WHERE id=?";
 		try (PreparedStatement preparedStatement = connectionProvider.getPreparedStatement(sql)) {
 			preparedStatement.setLong(1, video.getUploaderId());
 			preparedStatement.setString(2, video.getTitle());
@@ -81,9 +78,7 @@ public class VideoRepository implements ICRUD<Video> {
 			preparedStatement.setInt(5, video.getViewCount());
 			preparedStatement.setInt(6, video.getLikeCount());
 			preparedStatement.setInt(7, video.getDislikeCount());
-			preparedStatement.setInt(8, video.getState());
-			preparedStatement.setLong(9, video.getUpdatedAt());
-			preparedStatement.setLong(10, video.getId());
+			preparedStatement.setLong(8, video.getId());
 			preparedStatement.executeUpdate();
 		}
 		catch (SQLException e) {

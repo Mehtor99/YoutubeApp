@@ -1,8 +1,11 @@
 package org.mehtor.dto.request;
 
+
 import org.mehtor.entity.ERole;
 
-public class UserRequestDTO {
+public class UserSaveRequestDTO {
+	
+	private Long id;
 	private String name;
 	private String surname;
 	private String email;
@@ -10,10 +13,7 @@ public class UserRequestDTO {
 	private String password;
 	private ERole role;
 	
-	public UserRequestDTO() {
-	}
-	
-	public UserRequestDTO(String name, String surname, String email, String username, String password, ERole role) {
+	public UserSaveRequestDTO(String name, String surname, String email, String username, String password, ERole role) {
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
@@ -68,5 +68,13 @@ public class UserRequestDTO {
 	
 	public void setRole(ERole role) {
 		this.role = role;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

@@ -42,10 +42,7 @@ public class UserRepository implements ICRUD<User> {
 	
 	@Override
 	public Optional<User> update(User user) {
-		sql = "UPDATE tbluser SET name=?,surname=?,email=?,username=?,password=?, role=?::user_role, state=?, " +
-				"createdat=?, updatedat=?" +
-				" WHERE " +
-				"id=?";
+		sql = "UPDATE tbluser SET name=?,surname=?,email=?,username=?,password=?, role=?::user_role WHERE id=?";
 		try (PreparedStatement preparedStatement = connectionProvider.getPreparedStatement(sql)) {
 			preparedStatement.setString(1, user.getName());
 			preparedStatement.setString(2, user.getSurname());
@@ -53,10 +50,10 @@ public class UserRepository implements ICRUD<User> {
 			preparedStatement.setString(4, user.getUsername());
 			preparedStatement.setString(5, user.getPassword());
 			preparedStatement.setString(6, user.getRole().name());
-			preparedStatement.setInt(7,user.getState());
-			preparedStatement.setLong(8,user.getCreatedAt());
-			preparedStatement.setLong(9,user.getCreatedAt());
-			preparedStatement.setLong(10, user.getId());
+//			preparedStatement.setInt(7,user.getState());
+//			preparedStatement.setLong(8,user.getCreatedAt());
+//			preparedStatement.setLong(9,user.getCreatedAt());
+			preparedStatement.setLong(7, user.getId());
 			preparedStatement.executeUpdate();
 		}
 		catch (SQLException e) {
